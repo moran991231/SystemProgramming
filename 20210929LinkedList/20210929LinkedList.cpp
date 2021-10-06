@@ -47,8 +47,10 @@ void printLL(node* pHead) {
 
 int main()
 {
-    node* pHead = createNode(10);
-    insertNode(&pHead, createNode(20));
+    node* pHead = NULL;
+    for (int i = 0; i < 10; i++) {
+        insertNode(&pHead, createNode(i));
+    }
     printLL(pHead);
 
 
