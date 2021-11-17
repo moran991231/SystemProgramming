@@ -10,7 +10,7 @@ typedef struct _node {
 
 typedef struct list { // List 구조체
     node* pHead;
-    HANDLE hMutex;
+    HANDLE hSemaphore;
 };
 
 // function: createList()
@@ -20,7 +20,10 @@ typedef struct list { // List 구조체
 list* createList() {
     list* pList = (list*)malloc(sizeof(list));
     pList->pHead = NULL;
-    pList->hMutex = CreateMutex(NULL, FALSE, NULL);
+    pList->hSemaphore = CreateSemaphore(NULL, // default security attributes
+        1, // initial count (==maximum count 이면 초기에 세마포어는 아무도 사용하지 않은 상태임 => 아무나 들어왕)
+        1, // maximum count 최대 허용 스레드 수
+        NULL ); 
     return pList;
 }
 /// <summary>
@@ -29,13 +32,10 @@ list* createList() {
 /// <param name="pList">pointer of the list</param>
 /// <param name="newNode">pointer of the new node</param>
 void insertHead(list* pList, node* newNode) {
-    WaitForSingleObject(pList->hMutex, INFINITE); // 현제 mutex가 nonsignaled상태이면 signaled상태가 될 때까지 기다린다.
-    // 만약 mutex의 상태가 signaled로 변한다면
-    // 다음 문장으로 넘어간다.
-    // mutex의 상태를 nonsignaled로 만든다 (side effect) --> event object의 autoreset
+    WaitForSingleObject(pList->hSemaphore, INFINITE);
     newNode->pNext = pList->pHead;
     pList->pHead = newNode;
-    ReleaseMutex(pList->hMutex); // mutex의 상태를 signaled로 바꾼다.
+    ReleaseSemaphore(pList->hSemaphore,1,NULL); //  1: cnt 1 증가
 }
 
 /// <summary>
@@ -43,7 +43,7 @@ void insertHead(list* pList, node* newNode) {
 /// </summary>
 /// <param name="pList"> pointer of a list</param>
 void deleteList(list* pList) {
-    CloseHandle(pList->hMutex);
+    CloseHandle(pList->hSemaphore);
     free(pList);
 }
 

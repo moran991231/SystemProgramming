@@ -10,7 +10,7 @@ typedef struct _node {
 
 typedef struct list { // List 구조체
     node* pHead;
-    HANDLE hMutex;
+    HANDLE hEO;
 };
 
 // function: createList()
@@ -20,7 +20,7 @@ typedef struct list { // List 구조체
 list* createList() {
     list* pList = (list*)malloc(sizeof(list));
     pList->pHead = NULL;
-    pList->hMutex = CreateMutex(NULL, FALSE, NULL);
+    pList->hEO = CreateEvent(NULL,FALSE/*auto reset*/, TRUE/*initially signaled*/, NULL);
     return pList;
 }
 /// <summary>
@@ -29,13 +29,13 @@ list* createList() {
 /// <param name="pList">pointer of the list</param>
 /// <param name="newNode">pointer of the new node</param>
 void insertHead(list* pList, node* newNode) {
-    WaitForSingleObject(pList->hMutex, INFINITE); // 현제 mutex가 nonsignaled상태이면 signaled상태가 될 때까지 기다린다.
+    WaitForSingleObject(pList->hEO, INFINITE); // 현제 mutex가 nonsignaled상태이면 signaled상태가 될 때까지 기다린다.
     // 만약 mutex의 상태가 signaled로 변한다면
     // 다음 문장으로 넘어간다.
     // mutex의 상태를 nonsignaled로 만든다 (side effect) --> event object의 autoreset
     newNode->pNext = pList->pHead;
     pList->pHead = newNode;
-    ReleaseMutex(pList->hMutex); // mutex의 상태를 signaled로 바꾼다.
+    SetEvent(pList->hEO); // mutex의 상태를 signaled로 바꾼다.
 }
 
 /// <summary>
@@ -43,7 +43,7 @@ void insertHead(list* pList, node* newNode) {
 /// </summary>
 /// <param name="pList"> pointer of a list</param>
 void deleteList(list* pList) {
-    CloseHandle(pList->hMutex);
+    CloseHandle(pList->hEO);
     free(pList);
 }
 
