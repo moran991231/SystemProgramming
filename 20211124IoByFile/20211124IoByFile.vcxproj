@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{053a534c-48b2-4a35-992e-9f6ab50adb39}</ProjectGuid>
-    <RootNamespace>hw3</RootNamespace>
+    <ProjectGuid>{4ea947ca-b52a-492c-b970-86cc5d482115}</ProjectGuid>
+    <RootNamespace>My20211124IoByFile</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hw3.cpp" />
+    <ClCompile Include="20211124IoByFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
