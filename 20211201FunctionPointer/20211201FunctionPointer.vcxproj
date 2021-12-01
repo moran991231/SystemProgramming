@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4ea947ca-b52a-492c-b970-86cc5d482115}</ProjectGuid>
-    <RootNamespace>My20211124IoByFile</RootNamespace>
+    <ProjectGuid>{f57430aa-21f3-4c20-816b-b2f8eaf837de}</ProjectGuid>
+    <RootNamespace>My20211201FunctionPointer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,10 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="20211124IoByFile.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\20211201IoByEvent\MtVerify.h" />
+    <ClCompile Include="20211201FunctionPointer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
